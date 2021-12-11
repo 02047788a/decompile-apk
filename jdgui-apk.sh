@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # 校验参数合法性
-source util.sh
+source ./util.sh
 check $1
 
 # 得到新的目录
@@ -13,8 +13,10 @@ function isEmptyDir(){
     return `ls -A $1|wc -w`
 }
 
+echo "newfoldername=$newfoldername, absolutename=$absolutename"
 # 执行apktool命令
-sh ../tools/apktool/apktool d -f $absolutename
+#sh ../tools/apktool/apktool d -f $absolutename
+apktool.bat d -f $absolutename # 我放在c:\bin\apktool.bat 並且設置環境變數PATH
 
 # 判断目录是否存在，不存在证明执行apktool命令出现异常
 if [ ! -d "$foldername" ];
@@ -38,7 +40,9 @@ cd $foldername
 echo `pwd`
 
 # 执行dex2jar命令
-sh ../../tools/dex2jar/d2j-dex2jar.sh $absolutename
+echo "sh ./tools/dex2jar/d2j-dex2jar.sh $absolutename"
+#sh ./tools/dex2jar/d2j-dex2jar.sh $absolutename
+sh /c/bin/dex-tools/d2j-dex2jar.sh $absolutename # 我放在c:\bin\dex-tools\下面 這邊就得定 full path了
 suffix="-dex2jar.jar"
 jarname=${foldername}${suffix}
 
